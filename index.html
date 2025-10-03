@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visualizador de imagem (GitHub)</title>
+  <style>
+    /* corpo ocupa toda a tela e usa flex para centralizar */
+    html,body {
+      height: 100%;
+      margin: 0;
+      background: #111; /* fundo escuro para contraste */
+      color: #fff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    .wrap {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* container para limitar o tamanho máximo da imagem,
+       mantendo proporção independentemente da orientação */
+    .frame {
+      width: min(1100px, 100%);     /* não fica maior que 1100px */
+      height: calc(100vh - 40px);   /* ocupa até a altura da viewport menos padding */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+      overflow: hidden; /* garante que nada vaze */
+    }
+
+    /* img responsiva preservando proporção.
+       object-fit: contain mantém a imagem inteira (sem corte) e proporcional */
+    .frame img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* pequena barra de topo com instruções / link */
+    .topbar {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      font-size: 13px;
+      background: rgba(0,0,0,0.45);
+      padding: 6px 10px;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    .notice {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      font-size: 13px;
+      background: rgba(0,0,0,0.45);
+      padding: 6px 10px;
+      border-radius: 8px;
+      opacity: 0.85;
+    }
+
+    a { color: #7ecbff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="topbar">Substitua o <code>src</code> pela URL raw do GitHub</div>
+  <div class="notice">Ex: raw.githubusercontent.com</div>
+
+  <div class="wrap">
+    <div class="frame" role="img" aria-label="Visualizador de imagem">
+      <!-- Troque o src abaixo pela URL direta/raw do GitHub -->
+      <img id="gitImg" src="https://raw.githubusercontent.com/usuario/repositorio/branch/caminho/imagem.jpg" alt="Imagem do GitHub" />
+    </div>
+  </div>
+
+  <script>
+    // Opcional: detecta erro de carregamento e mostra mensagem no console
+    const img = document.getElementById('gitImg');
+    img.addEventListener('error', () => {
+      console.warn('Erro ao carregar imagem. Verifique se a URL é a versão "raw" do GitHub (raw.githubusercontent.com) e se o link está correto.');
+      // substitui por um placeholder simples (opcional)
+      img.src = 'data:image/svg+xml;charset=utf-8,' +
+        encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450"><rect width="100%" height="100%" fill="#222"/><text x="50%" y="50%" fill="#999" font-family="Arial,Helvetica,sans-serif" font-size="20" dominant-baseline="middle" text-anchor="middle">Imagem não pôde ser carregada</text></svg>');
+    });
+  </script>
+</body>
+</html>
